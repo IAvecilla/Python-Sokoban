@@ -2,6 +2,7 @@
 Proyecto final realizado en la materia "Algoritmos y Programacion I" en la Universidad de Buenos Aires que esta estructurado de manera tal que se utilizaron todos los contenidos vistos en la materia.
 
 El clasico Sokoban hecho 100% Python con nuevos Sprites pero los mismos niveles
+
 <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Sokoban_ani.gif" width="350" alt="accessibility text">
 
 
