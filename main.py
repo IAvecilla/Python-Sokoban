@@ -4,6 +4,9 @@ from pila import Pila
 from cola import Cola
 
 def transformar_formato (nivel):
+    """
+    Recibe el nivel en forma de lista y lo devuelve en formato de tuplas no mutables
+    """
     nivel_tupla = ()
     for lista in nivel:
         nivel_tupla += tuple(lista)
@@ -15,6 +18,11 @@ def buscar_solucion (estado_inicial):
     return backtrack (estado_inicial, visitados)
 
 def backtrack (estado, visitados):
+    """
+    Ejecuta de manera recursiva un algoritmo de Backtracking para encontrar los movimiento a seguir para resolver el nivel
+    Recibe el estado del juego y los estados ya visitados.
+    En caso de exito devuelve true y una lista que contiene los movimientos indicados
+    """
     visitados [transformar_formato(estado)] = "estado"
     if soko.juego_ganado(estado):
         return True, Pila()
@@ -30,6 +38,9 @@ def backtrack (estado, visitados):
     return False, None
 
 def movimientos_posibles (estado):
+    """
+    Recibe el estado actual del juego y devuele una lista con los movimientos posibles a realizar
+    """
     movimientos = [(1, 0),(0, 1),(-1, 0),(0, -1)]
     posibles = []
     for m in movimientos:
@@ -39,6 +50,9 @@ def movimientos_posibles (estado):
     return posibles
 
 def dibujar_nivel (nivel):
+    """"
+    Recibe el nivel actual y se encarga de dibujarlo por pantalla
+    """
 
     for f in range (len(nivel)):
             for c in range(len(nivel[f])):
@@ -66,6 +80,9 @@ def dibujar_nivel (nivel):
                 
 
 def cargar_niveles (ruta_archivo):
+    """
+    Recibe la ruta de un archivo y devuelve una lista de listas, donde cada sublista es un nivel
+    """
     max_longitud_fila = 0
     
     with open (ruta_archivo) as archivo:
@@ -96,6 +113,9 @@ def cargar_niveles (ruta_archivo):
         return niveles
     
 def cargar_teclas (ruta_archivo):
+    """
+    Recibe un archivo con las teclas del juego y devuelve un diccionario cuyas claves son las teclas y los valores el movimiento asignado
+    """
     with open ("teclas.txt") as controles:
             teclas_por_accion = {}
             
@@ -123,6 +143,9 @@ def cargar_teclas (ruta_archivo):
     return teclas_por_accion
 
 def redibujar_tablero (nivel, mensaje):
+    """
+    Recibe el nivel y un mensaje, redibuja el nivel con el mensaje pasado por parametro
+    """
 
     gamelib.draw_begin()
 
@@ -150,23 +173,21 @@ def main():
     while gamelib.is_alive():
         # Dibujar la pantalla
         gamelib.draw_begin()
-        
         dibujar_nivel(nivel)
         
+        #Chequea si se pidieron pistas
         if not cola_aux.esta_vacia():
             gamelib.draw_text("Pista Disponible", 65, 15)
         
-
         gamelib.draw_end()
         
+        # Actualizar el estado del juego, según la `tecla` presionada
         ev = gamelib.wait(gamelib.EventType.KeyPress)
         if not ev:
             break
         
         tecla = ev.key
-
         
-        # Actualizar el estado del juego, según la `tecla` presionada
         accion = controles.get (tecla)
         
         if accion == "REINICIAR":
@@ -209,10 +230,12 @@ def main():
         else:
             continue
         
+        #Update del nivel una vez efectuado el movimiento
         pila_aux.apilar(nivel)
         nivel = soko.mover (nivel, direccion)
         
         
+        #Chequea el fin del nivel y pasa al siguiente
         if soko.juego_ganado (nivel):
             nivel_actual += 1
             
