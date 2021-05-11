@@ -158,9 +158,9 @@ def redibujar_tablero (nivel, mensaje):
 
 def main():
     # Inicializar el estado del juego
-    nivel_actual = int(input("Dame el nivel: "))
     pila_aux = Pila()
     cola_aux = Cola()
+    nivel_actual = 0
 
     controles = cargar_teclas ("teclas.txt")
     niveles = cargar_niveles ("niveles.txt")
